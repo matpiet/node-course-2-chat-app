@@ -3,11 +3,6 @@ var socket = io();
 
 socket.on('connect', function(){
   console.log('connected to server');
-
-  socket.emit('createMessage', {
-    to: 'Jim Acosta',
-    text: 'Whats going on with all the Russia stuff?'
-  });
 });
 
 socket.on('disconnect', function(){
