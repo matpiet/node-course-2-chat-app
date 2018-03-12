@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
+
+var {generateMessage} = require('./utils/message');
 const app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -13,23 +15,16 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) =>{
   console.log('New User Connected');
 
-  socket.emit('newMessage', {
-    from: 'Admin',
-    text: 'Welcome to the chat App!'
-  });
-  socket.broadcast.emit('newMessage', {
-    from: 'Admin',
-    text: 'New user joined the chat'
-  });
+  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the Chat App.'));
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new user joined the chat.'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log(JSON.stringify(message, undefined, 3));
 
-    io.emit('newMessage', {
-      from: message.to,
-      text: message.text
+    io.emit('newMessage', generateMessage(message.from, message.text));
+    callback("This is from the server");
     });
-  });
+  //});
 }); //registers an event listener
 
 
