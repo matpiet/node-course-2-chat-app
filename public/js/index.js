@@ -21,9 +21,23 @@ $('#message-form').on('submit', function(e) {
   //alert('here');
   e.preventDefault();
   socket.emit('createMessage', {
-    from: 'Matt',
-    text: $('[name=message]').val()
-  }, function(message){
-  console.log(message);
+      from: 'Matt',
+      text: $('[name=message]').val()
+    }, function(message){
+    console.log(message);
+  });
 });
+
+var locationButton = $('#send-location');
+locationButton.on('click', function(e){
+  if(!navigator.geolocation){
+    return alert("Browser doesn't support geolocation.");
+  };
+
+  navigator.geolocation.getCurrentPosition(function(position){
+    console.log(position);
+  }, function(){
+    alert("Unable to fetch geolocation.");
+  });
+
 });
