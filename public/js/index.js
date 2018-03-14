@@ -17,14 +17,6 @@ socket.on('newMessage', function(message) {
     $('#messages').append(li);
 });
 
-
-socket.emit('createMessage', {
-  from: "Frank",
-  text: "Frank is happy with life!"
-}, function (message){
-  console.log(message);
-});
-
 $('#message-form').on('submit', function(e) {
   //alert('here');
   e.preventDefault();
