@@ -24,14 +24,16 @@ io.on('connection', (socket) =>{
     text: 'New user joined the chat'
   });
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log(JSON.stringify(message, undefined, 3));
-
+    console.log(JSON.stringify(generateMessage(message.from, message.text), undefined, 2));
     io.emit('newMessage', generateMessage(message.from, message.text));
+    callback();
   });
 
-  socket.on('createLocationMessage', (coords)=>{
+  socket.on('createLocationMessage', (coords, callback)=>{
     io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+    callback();
   });
 }); //registers an event listener
 
